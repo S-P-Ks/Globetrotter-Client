@@ -1,11 +1,11 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Globe } from "lucide-react";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../axios";
 
 export default function UsernamePage() {
   const [username, setUsername] = useState("");
@@ -18,19 +18,15 @@ export default function UsernamePage() {
 
     setIsLoading(true);
     try {
-      //   const response = await fetch("/api/users", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({ username }),
-      //   });
-
-      //   if (response.ok) {
-      navigate("/game");
-      //   } else {
-      //     console.error("Failed to register username");
-      //   }
+      await axiosClient
+        .post("/user", { username })
+        .then(() => {
+          navigate("/game");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          console.error("Failed to register username");
+        });
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -40,14 +36,6 @@ export default function UsernamePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <div className="flex items-center gap-2 font-bold">
-            <Globe className="h-5 w-5" />
-            <span>Globetrotter</span>
-          </div>
-        </div>
-      </header>
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2 text-center">

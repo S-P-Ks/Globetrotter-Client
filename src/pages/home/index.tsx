@@ -1,9 +1,8 @@
-import { Globe } from "lucide-react";
-import "./App.css";
 import { Link } from "react-router-dom";
-import { Button } from "./components/ui/button";
+import { Button } from "../../components/ui/button";
+import { Globe } from "lucide-react";
 
-function App() {
+function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       <main className="flex-1">
@@ -141,4 +140,4 @@ function App() {
   );
 }
 
-export default App;
+export default HomePage;
