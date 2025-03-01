@@ -16,18 +16,17 @@ import {
 } from "../store/features/userApi";
 
 function Navbar() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const inviterId = searchParams.get("inviter");
   const navigate = useNavigate();
-  const { data: userData, isFetching, isError } = useGetUserQuery();
-  const {
-    data: inviterData,
-    isFetching: isInviterFetching,
-    isError: isInviterError,
-  } = useGetUserByUsernameQuery(`${inviterId ?? ""}`, {
-    refetchOnMountOrArgChange: true,
-    skip: !inviterId,
-  });
+  const { data: userData, isError } = useGetUserQuery();
+  const { data: inviterData } = useGetUserByUsernameQuery(
+    `${inviterId ?? ""}`,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !inviterId,
+    }
+  );
 
   useEffect(() => {
     if (isError) {
@@ -48,7 +47,6 @@ function Navbar() {
 
   const handleShare = () => {
     const baseUrl = window.location.origin;
-    const shareImage = generateShareImage();
     const shareText = `I scored ${userData?.correctScore} correct answers in the Globetrotter Challenge! Can you beat me?`;
     const shareUrl = `${baseUrl}/game?inviter=${encodeURIComponent(
       userData?.user._id ?? ""

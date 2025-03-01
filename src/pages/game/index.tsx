@@ -6,49 +6,32 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import axiosClient from "../../axios";
 import QuizCard from "../../components/QuizCard";
-import { CardFooter } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Frown, PartyPopper } from "lucide-react";
 import { useGetUserQuery } from "../../store/features/userApi";
 import {
   useGetRandomCityQuery,
   useValidateOptionMutation,
 } from "../../store/features/cityApi";
 
-interface Destination {
-  id: string;
-  name: string;
-  clues: string[];
-  facts: string[];
-  image: string;
-}
-
 export default function GamePage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [actualCity, setActualCity] = useState<string | null>(null);
   const [fact, setFact] = useState<string>("");
-  const [score, setScore] = useState({ correct: 0, incorrect: 0 });
+  const [score] = useState({ correct: 0, incorrect: 0 });
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState<string | null>(null);
   const [inviterUsername, setInviterUsername] = useState<string | null>(null);
   const [inviterScore, setInviterScore] = useState<{
     correct: number;
     incorrect: number;
   } | null>(null);
-  const [shareUrl, setShareUrl] = useState<string>("");
-  const [userId, setUserId] = useState<string | null>(null);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const { data: UserData, isFetching, isError } = useGetUserQuery();
-  const {
-    data: cityData,
-    isFetching: isDestinationFetching,
-    isError: isDestinationError,
-    refetch,
-  } = useGetRandomCityQuery();
+  const { data: cityData, refetch } = useGetRandomCityQuery();
+
+  console.log(UserData);
 
   const [validateOption] = useValidateOptionMutation();
 
@@ -81,14 +64,6 @@ export default function GamePage() {
 
     loadGame();
   }, [inviterId, navigate]);
-
-  useEffect(() => {
-    // Update share URL when userId changes
-    if (userId) {
-      const baseUrl = window.location.origin;
-      setShareUrl(`${baseUrl}/game?inviter=${encodeURIComponent(userId)}`);
-    }
-  }, [userId]);
 
   const fetchNewDestination = async () => {
     setSelectedOption(null);
@@ -129,23 +104,11 @@ export default function GamePage() {
           const randomFact =
             data.facts[Math.floor(Math.random() * data.facts.length)];
           setFact(randomFact);
-
-          updateScore(data.correct);
         } else {
           console.log(score);
           // setScore((prev) => ({ ...prev, incorrect: prev.incorrect + 1 }));
         }
       });
-  };
-
-  const updateScore = async (correct: boolean) => {
-    try {
-      // const response = await axiosClient.post("/user/score", { correct });
-      // const data = response.data;
-      // setScore(data.score);
-    } catch (error) {
-      console.error("Error updating score:", error);
-    }
   };
 
   if (isLoading) {

@@ -43,8 +43,11 @@ export const userAPI = createApi({
 
         getUserByUsername: builder.query<UserResponse, string>({
             query: (username) => `/user/${username}`,
-            providesTags: (result, error, username) =>
-                [{ type: 'User', id: username }]
+            providesTags: (result, error, username) => {
+                console.log(result)
+                console.log(error)
+                return [{ type: 'User', id: username }]
+            }
         }),
     }),
 })
