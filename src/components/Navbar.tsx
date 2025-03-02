@@ -96,11 +96,11 @@ function Navbar() {
                 <div className="ml-2 text-sm">
                   Score:{" "}
                   <span className="font-bold text-green-600">
-                    {inviterData?.correctScore}
+                    {inviterData?.correctScore ?? 0}
                   </span>{" "}
                   /{" "}
                   <span className="font-bold text-red-600">
-                    {inviterData?.incorrectScore}
+                    {inviterData?.incorrectScore ?? 0}
                   </span>
                 </div>
               </div>
