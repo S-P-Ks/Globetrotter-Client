@@ -1,4 +1,4 @@
-import { Globe, Medal, RotateCcw, Share2 } from "lucide-react";
+import { Medal, RotateCcw, Share2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -9,19 +9,21 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import { useGetUserQuery } from "../store/features/userApi";
+import { useCallback } from "react";
 
 function CompletionCard() {
   const { data: UserData } = useGetUserQuery();
 
   const resetQuiz = () => {};
 
-  const getAccuracyPercentage = () => {
+  const getAccuracyPercentage = useCallback(() => {
     return Math.round(
       (parseInt(UserData?.correctScore ?? "0") /
-        parseInt(UserData?.incorrectScore ?? "0")) *
+        (parseInt(UserData?.correctScore ?? "0") +
+          parseInt(UserData?.incorrectScore ?? "0"))) *
         100
     );
-  };
+  }, [UserData]);
 
   const getFeedbackMessage = () => {
     const accuracy = getAccuracyPercentage();
@@ -36,13 +38,6 @@ function CompletionCard() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-center items-center mb-6">
-        <div className="flex items-center gap-2">
-          <Globe className="h-8 w-8 text-blue-600" />
-          <h1 className="text-3xl font-bold text-blue-600">GlobeTrotter</h1>
-        </div>
-      </div>
-
       <Card className="shadow-lg border-2 border-blue-100 dark:border-blue-900/20">
         <CardHeader className="items-center text-center bg-blue-50 dark:bg-blue-900/20 rounded-t-lg">
           <Medal className="h-16 w-16 text-yellow-500 mb-2" />
@@ -88,7 +83,7 @@ function CompletionCard() {
                 <p className="text-sm text-gray-500">Total</p>
                 <p className="text-2xl font-bold text-blue-600">
                   {parseInt(UserData?.correctScore ?? "0") +
-                    parseInt(UserData?.correctScore ?? "0")}
+                    parseInt(UserData?.incorrectScore ?? "0")}
                 </p>
               </div>
             </div>
