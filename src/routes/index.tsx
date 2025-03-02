@@ -2,7 +2,6 @@ import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
-  Routes,
 } from "react-router-dom";
 import App from "../App";
 import UsernamePage from "../pages/username";

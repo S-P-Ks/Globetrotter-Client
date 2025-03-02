@@ -10,20 +10,13 @@ import {
 } from "./ui/dialog";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  useGetUserByIDQuery,
-  useGetUserQuery,
-} from "../store/features/userApi";
+import { useGetUserQuery } from "../store/features/userApi";
 
 function Navbar() {
   const [searchParams] = useSearchParams();
   const inviterId = searchParams.get("inviter");
   const navigate = useNavigate();
   const { data: userData, isError } = useGetUserQuery();
-  const { data: inviterData } = useGetUserByIDQuery(`${inviterId ?? ""}`, {
-    refetchOnMountOrArgChange: true,
-    skip: !inviterId,
-  });
 
   useEffect(() => {
     if (isError) {
@@ -65,43 +58,21 @@ function Navbar() {
           <span className="text-xl">Globetrotter</span>
         </div>
         <div className="flex items-center gap-4">
-          <div>
-            <div className="flex flex-row">
-              <div className="text-sm">
-                Playing as:{" "}
-                <span className="font-bold">{userData?.user.username}</span>
-              </div>
-              <div className="ml-2 text-sm">
-                Score:{" "}
-                <span className="font-bold text-green-600">
-                  {userData?.correctScore}
-                </span>{" "}
-                /{" "}
-                <span className="font-bold text-red-600">
-                  {userData?.incorrectScore}
-                </span>
-              </div>
+          <div className="flex flex-row">
+            <div className="text-sm">
+              Playing as:{" "}
+              <span className="font-bold">{userData?.user.username}</span>
             </div>
-            {inviterId && (
-              <div className="flex flex-row">
-                <div className="text-sm">
-                  Inviter :{" "}
-                  <span className="font-bold">
-                    {inviterData?.user.username}
-                  </span>
-                </div>
-                <div className="ml-2 text-sm">
-                  Score:{" "}
-                  <span className="font-bold text-green-600">
-                    {inviterData?.correctScore ?? 0}
-                  </span>{" "}
-                  /{" "}
-                  <span className="font-bold text-red-600">
-                    {inviterData?.incorrectScore ?? 0}
-                  </span>
-                </div>
-              </div>
-            )}
+            <div className="ml-2 text-sm">
+              Score:{" "}
+              <span className="font-bold text-green-600">
+                {userData?.correctScore}
+              </span>{" "}
+              /{" "}
+              <span className="font-bold text-red-600">
+                {userData?.incorrectScore}
+              </span>
+            </div>
           </div>
           <Dialog>
             <DialogTrigger asChild>
