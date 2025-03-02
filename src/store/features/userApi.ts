@@ -49,10 +49,22 @@ export const userAPI = createApi({
                 return [{ type: 'User', id: username }]
             }
         }),
+
+        createUser: builder.mutation<{
+            success: boolean
+            userId: string
+        }, { username: string }>({
+            query: (data) => ({
+                url: '/user',
+                method: 'POST',
+                body: data
+            }),
+        })
     }),
 })
 
 export const {
     useGetUserQuery,
-    useGetUserByUsernameQuery
+    useGetUserByUsernameQuery,
+    useCreateUserMutation
 } = userAPI

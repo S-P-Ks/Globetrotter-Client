@@ -48,7 +48,7 @@ function Navbar() {
   const handleShare = () => {
     const baseUrl = window.location.origin;
     const shareText = `I scored ${userData?.correctScore} correct answers in the Globetrotter Challenge! Can you beat me?`;
-    const shareUrl = `${baseUrl}/game?inviter=${encodeURIComponent(
+    const shareUrl = `${baseUrl}/username?inviter=${encodeURIComponent(
       userData?.user._id ?? ""
     )}`;
 

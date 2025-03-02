@@ -4,13 +4,18 @@ import { useState } from "react";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosClient from "../../axios";
+import { useCreateUserMutation } from "../../store/features/userApi";
 
 export default function UsernamePage() {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const inviterId = searchParams.get("inviter");
+
+  const [createUser] = useCreateUserMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,10 +23,10 @@ export default function UsernamePage() {
 
     setIsLoading(true);
     try {
-      await axiosClient
-        .post("/user", { username })
+      await createUser({ username })
+        .unwrap()
         .then(() => {
-          navigate("/game");
+          navigate(`/game${inviterId ? `?inviter=${inviterId}` : ""}`);
         })
         .catch((err: any) => {
           console.log(err);
