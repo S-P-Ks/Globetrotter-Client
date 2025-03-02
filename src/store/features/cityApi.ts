@@ -50,7 +50,7 @@ export const cityAPI = createApi({
                     guess
                 }
             }),
-            onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+            onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
                 try {
                     await queryFulfilled;
                     dispatch(userAPI.util.invalidateTags(['User']));
