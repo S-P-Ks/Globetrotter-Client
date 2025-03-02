@@ -6,11 +6,15 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import axiosClient from "../../axios";
 import QuizCard from "../../components/QuizCard";
-import { useGetUserQuery } from "../../store/features/userApi";
+import {
+  useGetUserByIDQuery,
+  useGetUserQuery,
+} from "../../store/features/userApi";
 import {
   useGetRandomCityQuery,
   useValidateOptionMutation,
 } from "../../store/features/cityApi";
+import CompletionCard from "../../components/CompletionCard";
 
 export default function GamePage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -18,7 +22,6 @@ export default function GamePage() {
   const [actualCity, setActualCity] = useState<string | null>(null);
   const [fact, setFact] = useState<string>("");
   const [score] = useState({ correct: 0, incorrect: 0 });
-  const [isLoading, setIsLoading] = useState(true);
   const [inviterUsername, setInviterUsername] = useState<string | null>(null);
   const [inviterScore, setInviterScore] = useState<{
     correct: number;
@@ -27,11 +30,18 @@ export default function GamePage() {
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const inviterId = searchParams.get("inviter");
 
   const { data: UserData, isFetching, isError } = useGetUserQuery();
-  const { data: cityData, refetch } = useGetRandomCityQuery();
-
-  console.log(UserData);
+  const { data: inviterData } = useGetUserByIDQuery(`${inviterId ?? ""}`, {
+    refetchOnMountOrArgChange: true,
+    skip: !inviterId,
+  });
+  const {
+    data: cityData,
+    refetch,
+    isFetching: isFetchingCity,
+  } = useGetRandomCityQuery();
 
   const [validateOption] = useValidateOptionMutation();
 
@@ -40,30 +50,6 @@ export default function GamePage() {
       navigate("/username");
     }
   }, [isError]);
-
-  const inviterId = searchParams.get("inviter");
-
-  useEffect(() => {
-    const getInviterDetails = async () => {
-      if (inviterId) {
-        try {
-          const response = await axiosClient.get(`/user/${inviterId}`);
-          const data = await response.data;
-          setInviterUsername(data.username);
-          setInviterScore(data.score);
-        } catch (error) {
-          console.error("Error fetching inviter details:", error);
-        }
-      }
-    };
-
-    const loadGame = async () => {
-      await getInviterDetails();
-      await fetchNewDestination();
-    };
-
-    loadGame();
-  }, [inviterId, navigate]);
 
   const fetchNewDestination = async () => {
     setSelectedOption(null);
@@ -76,8 +62,6 @@ export default function GamePage() {
         .then(() => {});
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -111,8 +95,12 @@ export default function GamePage() {
       });
   };
 
-  if (isLoading) {
+  if (isFetchingCity) {
     return <Loader />;
+  }
+
+  if (!cityData?.data || cityData.options.length == 0) {
+    return <CompletionCard />;
   }
 
   return (

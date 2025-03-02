@@ -11,7 +11,7 @@ import {
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  useGetUserByUsernameQuery,
+  useGetUserByIDQuery,
   useGetUserQuery,
 } from "../store/features/userApi";
 
@@ -20,13 +20,10 @@ function Navbar() {
   const inviterId = searchParams.get("inviter");
   const navigate = useNavigate();
   const { data: userData, isError } = useGetUserQuery();
-  const { data: inviterData } = useGetUserByUsernameQuery(
-    `${inviterId ?? ""}`,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !inviterId,
-    }
-  );
+  const { data: inviterData } = useGetUserByIDQuery(`${inviterId ?? ""}`, {
+    refetchOnMountOrArgChange: true,
+    skip: !inviterId,
+  });
 
   useEffect(() => {
     if (isError) {

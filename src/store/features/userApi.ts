@@ -41,7 +41,7 @@ export const userAPI = createApi({
             providesTags: ['User']
         }),
 
-        getUserByUsername: builder.query<UserResponse, string>({
+        getUserByID: builder.query<UserResponse, string>({
             query: (username) => `/user/${username}`,
             providesTags: (result, error, username) => {
                 console.log(result)
@@ -66,6 +66,6 @@ export const userAPI = createApi({
 
 export const {
     useGetUserQuery,
-    useGetUserByUsernameQuery,
+    useGetUserByIDQuery,
     useCreateUserMutation
 } = userAPI
