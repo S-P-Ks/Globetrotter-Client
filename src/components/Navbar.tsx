@@ -30,7 +30,7 @@ function Navbar() {
 
   useEffect(() => {
     if (isError) {
-      navigate("/username");
+      navigate(`/username${inviterId ? `?inviter=${inviterId}` : ""}`);
     }
   }, [isError]);
 

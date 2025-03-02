@@ -59,6 +59,7 @@ export const userAPI = createApi({
                 method: 'POST',
                 body: data
             }),
+            invalidatesTags: ["User"]
         })
     }),
 })
