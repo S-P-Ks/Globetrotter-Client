@@ -1,54 +1,114 @@
-# React + TypeScript + Vite
+# The Globetrotter Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive web application that tests users' travel knowledge through engaging cryptic clues about famous destinations worldwide. Built with React, TypeScript, and modern web technologies, this application offers an immersive experience for travel enthusiasts and quiz lovers alike.
 
-Currently, two official plugins are available:
+## Table of Contents
+- [The Globetrotter Challenge](#the-globetrotter-challenge)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+  - [Getting Started](#getting-started)
+  - [Project Structure](#project-structure)
+  - [Available Scripts](#available-scripts)
+  - [Environment Variables](#environment-variables)
+  - [Contributing](#contributing)
+  - [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Interactive Quiz System**
+  - Cryptic clues about global destinations
+  - Real-time feedback on answers
+  - Progressive difficulty levels
+  - Fun facts and trivia reveals
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **User Experience**
+  - Modern, responsive UI with Tailwind CSS
+  - Smooth animations and transitions
+  - Dark mode support
+  - Interactive components using Radix UI
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Game Features**
+  - Score tracking system
+  - Challenge friends functionality
+  - Global leaderboard
+  - 100+ destinations from around the world
+
+- **Technical Features**
+  - State persistence
+  - Real-time updates
+  - Responsive design
+  - Progressive Web App capabilities
+
+## Tech Stack
+
+- **Frontend Framework:** React 18 with TypeScript
+- **Build Tool:** Vite
+- **Styling:**
+  - Tailwind CSS
+  - Radix UI components
+  - Tailwind Animations
+- **State Management:** Redux Toolkit
+- **Form Handling:** React Hook Form with Zod validation
+- **Routing:** React Router DOM v7
+- **HTTP Client:** Axios
+- **UI Components:**
+  - Custom components built on Radix UI primitives
+  - Lucide React icons
+  - Embla Carousel
+  - Recharts for statistics
+
+## Getting Started
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/globetrotter-challenge.git
+cd globetrotter-challenge
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+2. **Install dependencies**
+```bash
+npm install
 ```
+
+3. **Set up environment variables**
+```bash
+cp .env.sample .env
+```
+Edit the `.env` file with your configuration:
+```env
+VITE_API_URL=your_api_url_here
+```
+
+4. **Start the development server**
+```bash
+npm run dev
+```
+
+## Project Structure
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+```env
+VITE_API_URL=your_api_url_here
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

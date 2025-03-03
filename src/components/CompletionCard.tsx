@@ -1,4 +1,4 @@
-import { Medal, RotateCcw, Share2 } from "lucide-react";
+import { Medal, RotateCcw } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -97,14 +97,6 @@ function CompletionCard() {
           >
             <RotateCcw className="h-4 w-4 mr-2" />
             Play Again
-          </Button>
-
-          <Button
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-medium py-3 flex items-center justify-center"
-            variant="default"
-          >
-            <Share2 className="h-4 w-4 mr-2" />
-            Share Results
           </Button>
         </CardFooter>
       </Card>
