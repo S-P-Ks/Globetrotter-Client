@@ -18,6 +18,7 @@ export default function GamePage() {
   const [actualCity, setActualCity] = useState<string | null>(null);
   const [fact, setFact] = useState<string>("");
   const [score] = useState({ correct: 0, incorrect: 0 });
+  const [isOptionValidating, setIsOptionValidating] = useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
   const inviterId = searchParams.get("inviter");
@@ -50,6 +51,7 @@ export default function GamePage() {
 
   const handleAnswer = async (option: string) => {
     setSelectedOption(option);
+    setIsOptionValidating(true);
 
     validateOption({
       cityId: cityData?.data._id ?? "",
@@ -75,10 +77,16 @@ export default function GamePage() {
           console.log(score);
           // setScore((prev) => ({ ...prev, incorrect: prev.incorrect + 1 }));
         }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsOptionValidating(false);
       });
   };
 
-  if (isFetchingCity) {
+  if (isFetchingCity || isOptionValidating) {
     return <Loader />;
   }
 
